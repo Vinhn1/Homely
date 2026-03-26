@@ -22,14 +22,12 @@
             app:cardBackgroundColor="#2E7D32"
             app:cardElevation="0dp">
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="H"
-                android:textColor="@color/white"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:scaleType="center"
+                android:src="@drawable/ic_home"
+                app:tint="@color/white" />
 
         </androidx.cardview.widget.CardView>
 
