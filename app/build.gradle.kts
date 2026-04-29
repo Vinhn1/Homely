@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -33,6 +35,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -43,4 +49,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    // Thư viện hỗ trợ Fragment và giao diện của Navigation
+    implementation("androidx.navigation:navigation-fragment:2.7.7")
+    implementation("androidx.navigation:navigation-ui:2.7.7")
+    // Quản lý và đồng bộ phiên bản các thư viện (tránh xung đột)
+    implementation(platform("com.google.firebase:firebase-bom:34.11.0"))
+    // Theo dõi hành vi và thống kê người dùng
+    implementation("com.google.firebase:firebase-analytics")
+    // Quản lý đăng ký, đăng nhập và bảo mật tài khoản.
+    implementation("com.google.firebase:firebase-auth")
+    // Lưu trữ file vật lý (ảnh phòng trọ, ảnh đại diện).
+    implementation("com.google.firebase:firebase-storage")
+    // Cơ sở dữ liệu lưu trữ thông tin (giá phòng, địa chỉ, profile).
+    implementation("com.google.firebase:firebase-firestore")
 }

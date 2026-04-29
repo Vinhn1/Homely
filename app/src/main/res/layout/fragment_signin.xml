@@ -65,7 +65,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_email_phone"
+                android:id="@+id/edt_email_phone"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:hint="Email hoặc Số điện thoại"
@@ -94,7 +94,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_password"
+                android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:hint="Mật khẩu"
