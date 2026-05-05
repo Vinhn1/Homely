@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Thân nhà -->
+    <path
+        android:pathData="M60,14 L100,46 L100,100 L20,100 L20,46 Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"/>
+
+    <!-- Mái nhà -->
+    <path
+        android:pathData="M60,6 L108,50 L12,50 Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.65"/>
+
+    <!-- Cửa chính -->
+    <path
+        android:pathData="M49,72 L49,100 L71,100 L71,72 Q60,66 49,72 Z"
+        android:fillColor="#1A86FF"
+        android:fillAlpha="0.5"/>
+
+    <!-- Cửa sổ trái -->
+    <path
+        android:pathData="M28,60 L28,72 L42,72 L42,60 Z"
+        android:fillColor="#38CFFF"
+        android:fillAlpha="0.85"/>
+    <path
+        android:pathData="M28,66 L42,66"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.6"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M35,60 L35,72"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.6"
+        android:fillColor="#00000000"/>
+
+    <!-- Cửa sổ phải -->
+    <path
+        android:pathData="M78,60 L78,72 L92,72 L92,60 Z"
+        android:fillColor="#38CFFF"
+        android:fillAlpha="0.85"/>
+    <path
+        android:pathData="M78,66 L92,66"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.6"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M85,60 L85,72"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.6"
+        android:fillColor="#00000000"/>
+
+    <!-- Kính lúp - vòng tròn ngoài -->
+    <path
+        android:pathData="M79,68 m-20,0 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"
+        android:strokeColor="#38CFFF"
+        android:strokeWidth="5.5"
+        android:fillColor="#00000000"/>
+
+    <!-- Kính lúp - nền mờ bên trong -->
+    <path
+        android:pathData="M79,68 m-16,0 a16,16 0 1,0 32,0 a16,16 0 1,0 -32,0"
+        android:fillColor="#0B9FE8"
+        android:fillAlpha="0.15"/>
+
+    <!-- Kính lúp - cán -->
+    <path
+        android:pathData="M92,81 L103,92"
+        android:strokeColor="#38CFFF"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Location pin bên trong kính lúp -->
+    <path
+        android:pathData="M79,62 m-5.5,0 a5.5,5.5 0 1,0 11,0 a5.5,5.5 0 1,0 -11,0"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.95"/>
+    <path
+        android:pathData="M73.5,67 L79,76 L84.5,67 Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.95"/>
+
+</vector>

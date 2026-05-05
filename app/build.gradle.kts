@@ -62,4 +62,8 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     // Cơ sở dữ liệu lưu trữ thông tin (giá phòng, địa chỉ, profile).
     implementation("com.google.firebase:firebase-firestore")
+
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.cardview:cardview:1.0.0")
 }

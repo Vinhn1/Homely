@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="splash_bg">#071E5B</color>
+    <color name="brand_blue">#1A86FF</color>
+    <color name="brand_cyan">#38CFFF</color>
+    <color name="brand_dark">#0B4FCC</color>
 </resources>
