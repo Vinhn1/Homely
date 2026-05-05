@@ -1,15 +1,44 @@
+# Built files
 *.iml
 .gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
 /build
-/captures
+/app/build
+*/build
+
+# Android Studio
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# Local configuration
+local.properties
+/.idea/caches
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Native build
 .externalNativeBuild
 .cxx
-local.properties
+/captures
+
+# Firebase (quan trọng!)
+google-services.json
+GoogleService-Info.plist
+
+# Keys & security
+*.jks
+*.keystore
+*.key
+
+# Logs
+*.log
+
+# Proguard
+/proguard/
+*.txt

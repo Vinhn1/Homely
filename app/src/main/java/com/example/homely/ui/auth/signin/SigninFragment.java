@@ -15,8 +15,7 @@ import android.widget.*;
 import com.example.homely.R;
 import com.example.homely.databinding.*;
 import com.example.homely.ui.auth.register.*;
-import com.example.homely.viewmodel.*;
-import com.google.common.base.*;
+import com.example.homely.ui.auth.viewmodel.*;
 
 
 public class SigninFragment extends Fragment {
