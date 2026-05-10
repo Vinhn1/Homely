@@ -1,14 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.SearchFragment">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Header -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"
+        android:background="@color/white"
+        app:elevation="4dp">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khám phá phòng trọ"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="@font/be_vietnam_pro_bold"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Dropdown tỉnh thành -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_province"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Chọn tỉnh / thành phố"
+            app:startIconDrawable="@drawable/ic_location"
+            app:boxStrokeColor="#E0E0E0"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_province"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:completionThreshold="1"
+                android:textSize="14sp"
+                android:fontFamily="@font/be_vietnam_pro"
+                android:paddingVertical="14dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Loại phòng -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loại phòng"
+            android:textSize="13sp"
+            android:textColor="#444444"
+            android:fontFamily="@font/be_vietnam_pro_bold"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="6dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_room_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:selectionRequired="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_type_all"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tất cả"
+                    android:checked="true"
+                    android:fontFamily="@font/be_vietnam_pro"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_type_nha_tro"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nhà trọ"
+                    android:fontFamily="@font/be_vietnam_pro"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_type_chung_cu"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chung cư mini"
+                    android:fontFamily="@font/be_vietnam_pro"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_type_nguyen_can"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nguyên căn"
+                    android:fontFamily="@font/be_vietnam_pro"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_type_studio"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Studio"
+                    android:fontFamily="@font/be_vietnam_pro"/>
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <!-- Khoảng giá -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khoảng giá (triệu/tháng)"
+            android:textSize="13sp"
+            android:textColor="#444444"
+            android:fontFamily="@font/be_vietnam_pro_bold"
+            android:layout_marginTop="14dp"/>
+
+        <!-- Hiển thị giá min - max -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_price_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 triệu"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/be_vietnam_pro"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/tv_price_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20+ triệu"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/be_vietnam_pro"/>
+        </LinearLayout>
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/slider_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:valueFrom="0"
+            android:valueTo="20"
+            app:values="@array/default_price_range"
+            app:thumbColor="@color/black"
+            app:trackColorActive="@color/black"
+            app:trackColorInactive="#E0E0E0"
+            app:haloColor="#33000000"
+            app:labelBehavior="gone"/>
+
+        <!-- Chip xóa bộ lọc (ẩn mặc định) -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_clear_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Xóa bộ lọc"
+            android:visibility="gone"
+            app:closeIconVisible="true"
+            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+
+    </LinearLayout>
+
+    <!-- Thông tin kết quả -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_result_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tất cả bài đăng"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            android:fontFamily="@font/be_vietnam_pro"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F0F0F0"/>
+
+    <!-- Danh sách phòng -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search_results"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp"
+        android:clipToPadding="false"
+        android:visibility="visible"/>
+
+    <!-- Trạng thái rỗng -->
+    <LinearLayout
+        android:id="@+id/layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_search"
+            android:alpha="0.4"/>
+
+        <TextView
+            android:id="@+id/tv_empty_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Không tìm thấy phòng trọ"
+            android:textSize="15sp"
+            android:textColor="#999999"
+            android:fontFamily="@font/be_vietnam_pro"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -45,7 +45,6 @@ public class FirestoreRoomSource {
     public ListenerRegistration getRoomsRealtime(EventListener<QuerySnapshot> listener) {
         return firestore.collection(COLLECTION)
                 .whereEqualTo("status", "available")
-                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .addSnapshotListener(listener);
     }
 
@@ -70,15 +69,18 @@ public class FirestoreRoomSource {
                 .update("status", "hidden");
     }
 
+    // Bỏ whereNotEqualTo và orderBy → không cần index
     public Task<QuerySnapshot> getRoomsByLandlord(String landlordId) {
         return firestore.collection(COLLECTION)
                 .whereEqualTo("landlordId", landlordId)
-                .whereNotEqualTo("status", "hidden")
-                .orderBy("status")
-                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get();
     }
 
+    public Task<QuerySnapshot> getAllRooms() {
+        return firestore.collection(COLLECTION)
+                .whereEqualTo("status", "available")
+                .get();
+    }
 
     // Bài đăng của người khác
     public Task<QuerySnapshot> getRoomsExcludingLandlord(String landlordId) {

@@ -83,8 +83,7 @@ public class HomeFragment extends Fragment {
 
     // Observe danh sách phòng từ Firestore, cập nhật adapter khi có dữ liệu
     private void observeRooms() {
-        // Dùng getRoomList() thay vì getMyRooms() để test trước
-        roomViewModel.getRoomList().observe(getViewLifecycleOwner(), result -> {
+        roomViewModel.getMyRooms().observe(getViewLifecycleOwner(), result -> {
             android.util.Log.d("HomeFragment", "Status: " + result.status);
             if (result.data != null) {
                 android.util.Log.d("HomeFragment", "Size: " + result.data.size());
@@ -97,9 +96,6 @@ public class HomeFragment extends Fragment {
                 android.util.Log.e("HomeFragment", "Lỗi: " + result.message);
             }
         });
-
-        // Trigger load tất cả phòng trước để test
-        roomViewModel.loadRoomList(null);
     }
 
     @Override

@@ -150,8 +150,9 @@ public class AddRoomFragment extends Fragment {
 
         // tạo object Room
         String roomId = UUID.randomUUID().toString();
+        String roomType = "nhà trọ";
         Room room = new Room(roomId, landlordId, title, description,
-                price, area, address, null, amenities, null, "available");
+                price, area, address, null, amenities, null, "available", roomType);
 
         // observe kết quả thêm phòng
         roomViewModel.addRoom(room, selectedImages)

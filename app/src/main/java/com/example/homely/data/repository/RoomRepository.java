@@ -45,10 +45,15 @@ public class RoomRepository {
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
                     Room room = doc.toObject(Room.class);
                     if (room != null) {
-                        room.setRoomId(doc.getId()); // ← QUAN TRỌNG
+                        room.setRoomId(doc.getId());
                         rooms.add(room);
                     }
                 }
+                // Sort client-side
+                rooms.sort((a, b) -> {
+                    if (a.getCreatedAt() == null || b.getCreatedAt() == null) return 0;
+                    return b.getCreatedAt().compareTo(a.getCreatedAt());
+                });
                 result.setValue(Resource.success(rooms));
             }
         });
@@ -202,15 +207,47 @@ public class RoomRepository {
                     for (DocumentSnapshot doc : snapshot.getDocuments()) {
                         Room room = doc.toObject(Room.class);
                         if (room != null) {
-                            room.setRoomId(doc.getId()); // ← thiếu dòng này
-                            rooms.add(room);
+                            room.setRoomId(doc.getId());
+                            // Lọc bỏ phòng hidden client-side
+                            if (!"hidden".equals(room.getStatus())) {
+                                rooms.add(room);
+                            }
                         }
                     }
+                    // Sort client-side
+                    rooms.sort((a, b) -> {
+                        if (a.getCreatedAt() == null || b.getCreatedAt() == null) return 0;
+                        return b.getCreatedAt().compareTo(a.getCreatedAt());
+                    });
                     result.setValue(Resource.success(rooms));
                 })
                 .addOnFailureListener(e ->
                         result.setValue(Resource.error(e.getMessage())));
+        return result;
+    }
 
+    public LiveData<Resource<List<Room>>> getAllRooms() {
+        MutableLiveData<Resource<List<Room>>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading());
+
+        roomSource.getAllRooms()
+                .addOnSuccessListener(snapshot -> {
+                    List<Room> rooms = new ArrayList<>();
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                        Room room = doc.toObject(Room.class);
+                        if (room != null) {
+                            room.setRoomId(doc.getId());
+                            rooms.add(room);
+                        }
+                    }
+                    rooms.sort((a, b) -> {
+                        if (a.getCreatedAt() == null || b.getCreatedAt() == null) return 0;
+                        return b.getCreatedAt().compareTo(a.getCreatedAt());
+                    });
+                    result.setValue(Resource.success(rooms));
+                })
+                .addOnFailureListener(e ->
+                        result.setValue(Resource.error(e.getMessage())));
         return result;
     }
 }

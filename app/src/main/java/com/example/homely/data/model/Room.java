@@ -19,6 +19,15 @@ public class Room {
     private List<String> amenities; // Danh sách tiện ích (wifi, gác, bảo vệ...)
     private List<String> images; // Danh sách URL ảnh từ Storage
     private String status; // Trạng thái: "available", "rented", "hidden"
+    private String roomType;
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
 
     @ServerTimestamp
     private Date createdAt;
@@ -31,10 +40,11 @@ public class Room {
         this.createdAt = createdAt;
     }
 
+
     public Room() {
     }
 
-    public Room(String roomId, String landlordId, String title, String description, double price, double area, String address, GeoPoint location, List<String> amenities, List<String> images, String status) {
+    public Room(String roomId, String landlordId, String title, String description, double price, double area, String address, GeoPoint location, List<String> amenities, List<String> images, String status, String roomType) {
         this.roomId = roomId;
         this.landlordId = landlordId;
         this.title = title;
@@ -46,6 +56,7 @@ public class Room {
         this.amenities = amenities;
         this.images = images;
         this.status = status;
+        this.roomType = roomType;
     }
 
     public String getRoomId() {

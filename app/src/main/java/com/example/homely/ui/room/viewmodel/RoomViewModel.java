@@ -113,6 +113,9 @@ public class RoomViewModel extends ViewModel{
         return repository.getMyRooms(uid);
     }
 
+    public LiveData<Resource<List<Room>>> getAllRooms() {
+        return repository.getAllRooms();
+    }
 
     // Cleanup khi ViewModel bị destroy
     protected void onCleared() {
