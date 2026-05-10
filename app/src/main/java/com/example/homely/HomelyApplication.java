@@ -4,12 +4,16 @@ import android.app.*;
 import android.content.pm.*;
 import android.os.*;
 import android.util.*;
+import android.util.Base64;
 import android.view.*;
 
 import androidx.annotation.*;
 
+import com.cloudinary.android.*;
 import com.facebook.*;
 import com.facebook.appevents.*;
+
+import java.util.*;
 
 public class HomelyApplication extends Application {
 
@@ -18,6 +22,14 @@ public class HomelyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Map<String, String> config = new HashMap<>();
+        config.put("cloud_name", "dp8neyfcu");
+        config.put("api_key", "615689798969528");
+        config.put("api_secret", "ilILxecPczP6pLnoefoXqBPFook");
+
+
+        MediaManager.init(this, config);
 
         // Log Key Hash để cấu hình Facebook Console
         logKeyHash();

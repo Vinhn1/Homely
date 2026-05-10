@@ -1,33 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Navigation graph cho màn hình chính (sau khi đăng nhập).
+    MainActivity dùng NavController để điều hướng giữa các fragment.
+    Bottom navigation bar điều khiển 5 tab chính.
+-->
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
     app:startDestination="@id/homeFragment">
 
+    <!-- ── 5 TAB CHÍNH (Bottom Navigation) ── -->
+
+    <!-- Tab 1: Trang chủ — hiển thị danh sách phòng mới nhất -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.homely.ui.home.HomeFragment"
-        android:label="Trang chủ"/>
+        android:label="Trang chủ">
 
+        <!-- Click item phòng → sang trang chi tiết -->
+        <action
+            android:id="@+id/action_home_to_roomDetail"
+            app:destination="@id/roomDetailFragment" />
+
+        <action
+            android:id="@+id/action_home_to_addRoom"
+            app:destination="@id/addRoomFragment" />
+    </fragment>
+
+    <!-- Tab 2: Tìm kiếm — lọc phòng theo giá, diện tích, loại -->
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.homely.ui.search.SearchFragment"
         android:label="Tìm kiếm"/>
 
+    <!-- Tab 3: Đăng tin — chủ trọ tạo bài đăng phòng mới -->
     <fragment
         android:id="@+id/postFragment"
         android:name="com.example.homely.ui.post.PostFragment"
-        android:label="Đăng tin"/>
+        android:label="Đăng tin">
 
+        <!-- Bấm "Đăng tin" → mở form nhập thông tin phòng -->
+        <action
+            android:id="@+id/action_postFragment_to_addRoomFragment"
+            app:destination="@id/addRoomFragment"/>
+    </fragment>
+
+    <!-- Tab 4: Thông báo -->
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.example.homely.ui.notification.NotificationFragment"
         android:label="Thông báo"/>
 
+    <!-- Tab 5: Tài khoản — thông tin cá nhân, đăng xuất -->
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.homely.ui.profile.ProfileFragment"
         android:label="Tài khoản"/>
+
+    <!-- ── MÀN HÌNH PHỤ (không thuộc bottom nav) ── -->
+
+    <!-- Form nhập thông tin khi đăng tin phòng mới -->
+    <fragment
+        android:id="@+id/addRoomFragment"
+        android:name="com.example.homely.ui.room.add.AddRoomFragment"
+        android:label="Đăng tin phòng"/>
+
+    <!--
+        Chi tiết phòng — nhận roomId từ fragment trước.
+        Hiển thị: ảnh, giá, địa chỉ, tiện ích, chủ trọ, đánh giá.
+        Có thể navigate tới từ: homeFragment, searchFragment, favoriteFragment.
+    -->
+    <fragment
+        android:id="@+id/roomDetailFragment"
+        android:name="com.example.homely.ui.room.detail.RoomDetailFragment"
+        android:label="Chi tiết phòng">
+
+        <!-- roomId dùng để query Firestore lấy thông tin phòng -->
+        <argument
+            android:name="roomId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_roomDetailFragment_to_editRoomFragment"
+            app:destination="@id/editRoomFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editRoomFragment"
+        android:name="com.example.homely.ui.room.detail.EditRoomFragment"
+        android:label="Chỉnh sửa tin">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"/>
+    </fragment>
 
 </navigation>

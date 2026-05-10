@@ -1,66 +1,110 @@
 package com.example.homely.ui.home;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.homely.R;
+import com.example.homely.data.remote.firebase.firestore.FirestoreRoomSource;
+import com.example.homely.data.remote.firebase.storage.StorageSource;
+import com.example.homely.data.repository.RoomRepository;
+import com.example.homely.databinding.FragmentHomeBinding;
+import com.example.homely.ui.common.Resource;
+import com.example.homely.ui.common.ViewModelFactory;
+import com.example.homely.ui.room.RoomAdapter;
+import com.example.homely.ui.room.viewmodel.RoomViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentHomeBinding binding;
+    private RoomViewModel roomViewModel;
+    private RoomAdapter adapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public HomeFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupViewModel();
+        setupRecyclerView();
+        observeRooms();
+
+        // Click "Đăng thêm" → navigate sang AddRoomFragment
+        binding.tvSeeAll.setOnClickListener(v ->
+                Navigation.findNavController(requireView())
+                        .navigate(R.id.action_home_to_addRoom));
+    }
+
+    // Khởi tạo RoomViewModel với RoomRepository
+    private void setupViewModel() {
+        RoomRepository repository = new RoomRepository(
+                new FirestoreRoomSource(),
+                new StorageSource()
+        );
+        Map<Class<? extends androidx.lifecycle.ViewModel>,
+                androidx.lifecycle.ViewModel> creators = new HashMap<>();
+        creators.put(RoomViewModel.class, new RoomViewModel(repository));
+
+        ViewModelFactory factory = new ViewModelFactory(creators);
+        roomViewModel = new ViewModelProvider(this, factory).get(RoomViewModel.class);
+    }
+
+    // Gắn adapter vào RecyclerView, xử lý click item → sang RoomDetailFragment
+    private void setupRecyclerView() {
+        adapter = new RoomAdapter(room -> {
+            Bundle args = new Bundle();
+            args.putString("roomId", room.getRoomId()); // truyền roomId sang detail
+            Navigation.findNavController(requireView())
+                    .navigate(R.id.action_home_to_roomDetail, args); // dùng action, không dùng id trực tiếp
+        });
+
+        binding.rvListings.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvListings.setAdapter(adapter);
+    }
+
+    // Observe danh sách phòng từ Firestore, cập nhật adapter khi có dữ liệu
+    private void observeRooms() {
+        // Dùng getRoomList() thay vì getMyRooms() để test trước
+        roomViewModel.getRoomList().observe(getViewLifecycleOwner(), result -> {
+            android.util.Log.d("HomeFragment", "Status: " + result.status);
+            if (result.data != null) {
+                android.util.Log.d("HomeFragment", "Size: " + result.data.size());
+            }
+
+            if (result.status == Resource.Status.SUCCESS && result.data != null) {
+                adapter.submitList(result.data);
+                binding.rvListings.setVisibility(View.VISIBLE);
+            } else if (result.status == Resource.Status.ERROR) {
+                android.util.Log.e("HomeFragment", "Lỗi: " + result.message);
+            }
+        });
+
+        // Trigger load tất cả phòng trước để test
+        roomViewModel.loadRoomList(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

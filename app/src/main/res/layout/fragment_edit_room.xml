@@ -35,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Đăng tin cho thuê"
+                android:text="Chỉnh sửa tin đăng"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
@@ -480,7 +480,7 @@
                 android:layout_height="52dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:text="Đăng tin"
+                android:text="Lưu thay đổi"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"

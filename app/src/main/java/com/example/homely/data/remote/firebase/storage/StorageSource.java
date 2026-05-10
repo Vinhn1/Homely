@@ -2,8 +2,12 @@ package com.example.homely.data.remote.firebase.storage;
 
 import android.net.*;
 
+import com.cloudinary.android.*;
+import com.cloudinary.android.callback.*;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.storage.*;
+
+import java.util.*;
 
 /**
  * Nguồn dữ liệu Firebase Storage.
@@ -11,6 +15,12 @@ import com.google.firebase.storage.*;
  */
 
 public class StorageSource {
+
+    public interface OnUploadCallback {
+        void onSuccess(String url);
+        void onError(String error);
+    }
+
     private final FirebaseStorage storage;
 
     public StorageSource() {
@@ -20,12 +30,33 @@ public class StorageSource {
     /**
      * Upload một ảnh lên Storage và trả về download URL.
      * @param fileUri URI của file ảnh trên thiết bị
-     * @param path    Đường dẫn lưu trên Storage (ví dụ: "rooms/{roomId}/img_1.jpg")
      * @return Task<Uri> chứa URL tải xuống
      */
-    public Task<Uri> uploadImage(Uri fileUri, String path) {
-        // TODO: implement
-        return null;
+    public void uploadImage(Uri fileUri, String folder, OnUploadCallback callback) {
+        MediaManager.get().upload(fileUri)
+                .option("folder", folder)
+                .callback(new UploadCallback() {
+                    @Override
+                    public void onStart(String requestId) {}
+
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {}
+
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        String url = (String) resultData.get("secure_url");
+                        callback.onSuccess(url);
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        callback.onError(error.getDescription());
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {}
+                })
+                .dispatch();
     }
 
     /**
@@ -35,6 +66,7 @@ public class StorageSource {
      */
     public Task<Void> deleteImage(String imageUrl) {
         // TODO: implement
-        return null;
+        // getReferenceFromUrl() chuyển URL → StorageReference để xoá
+        return storage.getReferenceFromUrl(imageUrl).delete();
     }
 }

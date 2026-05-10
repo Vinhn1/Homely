@@ -74,4 +74,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     // Facebook SDK
     implementation("com.facebook.android:facebook-login:17.0.2")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.activity:activity:1.9.0")
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 }

@@ -18,7 +18,18 @@ public class Room {
     private GeoPoint location; // Tọa độ (lat, lng) dùng cho gg maps
     private List<String> amenities; // Danh sách tiện ích (wifi, gác, bảo vệ...)
     private List<String> images; // Danh sách URL ảnh từ Storage
-    private String status; // Trạng thái: "vailable", "rented", "hidden"
+    private String status; // Trạng thái: "available", "rented", "hidden"
+
+    @ServerTimestamp
+    private Date createdAt;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Room() {
     }

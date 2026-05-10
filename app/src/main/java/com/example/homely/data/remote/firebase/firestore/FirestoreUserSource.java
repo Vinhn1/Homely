@@ -8,6 +8,8 @@ import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
 import com.google.firebase.firestore.*;
 
+import java.util.*;
+
 /**
  * Nguồn dữ liệu Firestore cho users collection.
  */
@@ -54,6 +56,28 @@ public class FirestoreUserSource {
         return firestore.collection(COLLECTION_USERS).document(uid);
     }
 
+    /**
+     * Lấy thông tin user theo uid, trả về Task<User> dùng được ngay.
+     * @param uid Firebase Auth UID
+     * @return Task<User>
+     */
+    public Task<User> getUserById(String uid) {
+        return firestore.collection(COLLECTION_USERS)
+                .document(uid)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        return task.getResult().toObject(User.class);
+                    }
+                    return null;
+                });
+    }
+
+    public Task<Void> updateUser(String userId, Map<String, Object> updates) {
+        return firestore.collection("users")
+                .document(userId)
+                .update(updates);
+    }
 
 
 }
