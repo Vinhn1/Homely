@@ -1,17 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Homely" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="colorPrimary">#0B4FCC</item>
+        <item name="colorPrimaryVariant">#0839A8</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_black</item>
+        <item name="android:textColorHint">#8A9BC4</item>
+        <item name="colorOnSurface">#1A1A1A</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_background</item>
+    <!-- Chỉ dùng cho SplashActivity -->
+    <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="Theme.Homely" parent="Base.Theme.Homely" />
+    <!-- Dùng cho AuthActivity, MainActivity và mặc định toàn app -->
+    <style name="AppTheme.Main" parent="AppTheme">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
 </resources>

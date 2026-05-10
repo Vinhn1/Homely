@@ -62,8 +62,16 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     // Cơ sở dữ liệu lưu trữ thông tin (giá phòng, địa chỉ, profile).
     implementation("com.google.firebase:firebase-firestore")
-
+    // Hỗ trợ hiển thị chuẩn giao diện mới trên các máy Android đời cũ.
     implementation("androidx.appcompat:appcompat:1.6.1")
+    // Thiết kế bố cục màn hình linh hoạt, tránh lồng ghép nhiều lớp code.
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    // Cung cấp khung chứa dạng thẻ có sẵn viền bo góc và hiệu ứng đổ bóng 3D.
     implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.core:core:1.12.0")
+    // Google Play services auth (cho Google Sign-In)
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    // Facebook SDK
+    implementation("com.facebook.android:facebook-login:17.0.2")
 }

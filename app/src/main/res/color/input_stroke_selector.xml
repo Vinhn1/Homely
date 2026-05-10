@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Khi đang focus: viền xanh đậm brand -->
+    <item android:color="#0B4FCC" android:state_focused="true"/>
+    <!-- Khi có lỗi: viền đỏ -->
+    <item android:color="#E53935" android:state_activated="true"/>
+    <!-- Mặc định: viền xanh nhạt -->
+    <item android:color="#C5CEE8"/>
+</selector>

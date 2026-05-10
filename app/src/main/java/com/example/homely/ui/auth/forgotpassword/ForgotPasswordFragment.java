@@ -1,66 +1,85 @@
 package com.example.homely.ui.auth.forgotpassword;
 
+import android.graphics.Rect;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.*;
 
-import com.example.homely.R;
+import com.example.homely.data.remote.firebase.auth.*;
+import com.example.homely.databinding.FragmentForgotPasswordBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ForgotPasswordFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ForgotPasswordFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ForgotPasswordFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ForgotPasswordFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ForgotPasswordFragment newInstance(String param1, String param2) {
-        ForgotPasswordFragment fragment = new ForgotPasswordFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private FragmentForgotPasswordBinding binding;
+    private FirebaseAuthSource authSource;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        binding = FragmentForgotPasswordBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        authSource = new FirebaseAuthSource();
+
+        binding.btnSendReset.setOnClickListener(v -> sendResetEmail());
+        binding.tvBackToLogin.setOnClickListener(v-> requireActivity().onBackPressed());
+        binding.btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
+    }
+
+    private void sendResetEmail() {
+
+        String email = binding.edtRegisterEmail.getText().toString().trim();
+
+        if(email.isEmpty()){
+            binding.tilForgotEmail.setError("Vui lòng nhập email");
+            return;
+        }
+
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            binding.tilForgotEmail.setError("Email không hợp lệ");
+            return;
+        }
+
+        binding.tilForgotEmail.setError(null);
+
+        binding.progressBarForgot.setVisibility(View.VISIBLE);
+        binding.btnSendReset.setEnabled(false);
+
+        authSource.sendPasswordResetEmail(email)
+                .addOnSuccessListener(aVoid -> {
+                    binding.progressBarForgot.setVisibility(View.GONE);
+                    binding.btnSendReset.setEnabled(true);
+                    Toast.makeText(getContext(), "Đã gửi email đặt lại mật khẩu. Vui lòng kiểm tra hộp thư.", Toast.LENGTH_LONG).show();
+                    // Quay lại màn hình đăng nhập
+                    requireActivity().onBackPressed();
+                })
+                .addOnFailureListener(e -> {
+                    binding.progressBarForgot.setVisibility(View.GONE);
+                    binding.btnSendReset.setEnabled(true);
+                    String errorMsg = e.getMessage();
+
+                    if(errorMsg.contains("no user record")){
+                        Toast.makeText(getContext(), "Email chưa được đăng ký", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getContext(),"Lỗi: " +  errorMsg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

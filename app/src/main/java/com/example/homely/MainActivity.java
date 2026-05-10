@@ -3,44 +3,56 @@ package com.example.homely;
 import android.os.Bundle;
 import android.widget.*;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.navigation.*;
+import androidx.navigation.fragment.*;
+import androidx.navigation.ui.*;
 
 import com.example.homely.databinding.*;
-import com.example.homely.ui.auth.signin.*;
-import com.google.firebase.auth.*;
 
-// container chứa Fragment
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    private NavController navController;
+
+    private boolean isNavigating = false; // flag chống loop
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
 
-        // 1. Khởi tạo Binding thay vì dùng setContentView(R.layout...)
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // 2. Kiểm tra đăng nhập
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            // Hiển thị SigninFragment vào cái khung 'fragment_container'
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new SigninFragment())
-                    .commit();
-        } else {
-            // User đã đăng nhập, có thể chuyển sang HomeFragment hoặc Activity khác
-            Toast.makeText(this, "Chào mừng quay trở lại!", Toast.LENGTH_SHORT).show();
-        }
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment_main);
+        navController = navHostFragment.getNavController();
 
-        // Xử lý Padding cho hệ thống (EdgeToEdge)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        // Ẩn placeholder trước
+        binding.bottomNav.getMenu().findItem(R.id.placeholder).setEnabled(false);
+
+        // Tự set listener, bỏ qua placeholder, dùng NavigationUI để navigate
+        binding.bottomNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.placeholder) return false;
+            if (isNavigating) return true; // chặn loop
+            return NavigationUI.onNavDestinationSelected(item, navController);
         });
+
+        // Đồng bộ highlight BottomNav khi back stack thay đổi
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            int destId = destination.getId();
+
+            if (binding.bottomNav.getMenu().findItem(destId) != null
+                    && destId != R.id.placeholder) {
+                isNavigating = true;
+                binding.bottomNav.setSelectedItemId(destId);
+                isNavigating = false;
+            }
+        });
+
+        // FAB → navigate đến PostFragment
+        binding.fabPost.setOnClickListener(v ->
+                navController.navigate(R.id.postFragment)
+        );
     }
 }

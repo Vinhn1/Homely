@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.homely.ui.auth.signin.SigninFragment"
+        android:label="Đăng nhập" >
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_login_to_forgot"
+            app:destination="@id/forgotPasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.homely.ui.auth.register.RegisterFragment"
+        android:label="Đăng ký" />
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.homely.ui.auth.forgotpassword.ForgotPasswordFragment"
+        android:label="Quên mật khẩu" />
 
 </navigation>

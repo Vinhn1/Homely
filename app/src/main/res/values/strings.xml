@@ -2,4 +2,8 @@
     <string name="app_name">Homely</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id" translatable="false">991737079989143</string>
+    <string name="facebook_client_token">6c627f2c747fa2abf8e14114adb7b318</string>
+    <string name="fb_login_protocol_schema" translatable="false">fb991737079989143</string>
+    <string name="default_web_client_id" translatable="false">424159501657-sc5tn5nuv9eviib5cjflppjhk3sidrn2.apps.googleusercontent.com</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.homely;
 
 import android.content.*;
 import android.os.*;
+import android.view.*;
 import android.widget.*;
 
 import androidx.activity.EdgeToEdge;
@@ -19,13 +20,14 @@ import com.example.homely.utils.*;
 public class SplashActivity extends AppCompatActivity {
 
     private FirebaseAuthSource authSource;
-    private static final int SPLASH_DELAY_MS = 1500; // 1.5s
+    private static final int SPLASH_DELAY_MS = 2500; // 2.5s
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+    //    EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_splash);
 
         // Khởi tạo FirebaseAuthSource

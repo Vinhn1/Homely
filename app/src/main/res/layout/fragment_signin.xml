@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#F0F4FF"
     android:fillViewport="true">
 
     <LinearLayout
@@ -13,240 +13,255 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
-        <!-- Logo -->
+        <!-- LOGO CARD -->
         <androidx.cardview.widget.CardView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginTop="48dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="#2E7D32"
-            app:cardElevation="0dp">
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#0B4FCC"
+            app:cardElevation="10dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/ic_home"
-                app:tint="@color/white" />
+                android:scaleType="centerInside"
+                android:padding="14dp"
+                android:src="@drawable/ic_homely_logo"/>
 
         </androidx.cardview.widget.CardView>
 
-        <!-- Title -->
+        <!-- TIÊU ĐỀ -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Chào mừng tới Homely"
-            android:textSize="22sp"
+            android:layout_marginTop="20dp"
+            android:text="Chào mừng trở lại"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#1A1A1A" />
+            android:textColor="#071E5B" />
 
-        <!-- Subtitle -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="Đăng nhập để tìm trọ ưng ý"
             android:textSize="14sp"
-            android:textColor="#757575" />
+            android:textColor="#6B7BB5" />
 
-        <!-- Email / Phone Input -->
+        <!-- EMAIL / SĐT -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_email_phone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
+            android:hint="Email hoặc Số điện thoại"
             app:boxCornerRadiusBottomEnd="12dp"
-            app:boxStrokeColor="#BDBDBD"
-            app:hintEnabled="false">
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_selector"
+            app:boxStrokeWidth="1.5dp"
+            app:boxBackgroundColor="#FFFFFF"
+            app:hintTextColor="#0B4FCC"
+            app:startIconDrawable="@drawable/ic_email"
+            app:startIconTint="#8A9BC4"
+            app:startIconMinSize="24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_email_phone"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="Email hoặc Số điện thoại"
                 android:inputType="textEmailAddress"
                 android:textSize="15sp"
-                android:drawableStart="@drawable/ic_email"
-                android:drawablePadding="8dp"
-                android:paddingStart="16dp"
-                android:background="@null" />
-
+                android:textColor="#1A1A1A"
+                android:paddingStart="40dp"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password Input -->
+        <!-- MẬT KHẨU -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
+            android:layout_marginTop="14dp"
+            android:hint="Mật khẩu"
             app:boxCornerRadiusBottomEnd="12dp"
-            app:boxStrokeColor="#BDBDBD"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_selector"
+            app:boxStrokeWidth="1.5dp"
+            app:boxBackgroundColor="#FFFFFF"
+            app:hintTextColor="#0B4FCC"
             app:passwordToggleEnabled="true"
-            app:hintEnabled="false">
+            app:passwordToggleTint="#8A9BC4"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="#8A9BC4"
+            app:startIconMinSize="24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="Mật khẩu"
                 android:inputType="textPassword"
                 android:textSize="15sp"
-                android:drawableStart="@drawable/ic_lock"
-                android:drawablePadding="8dp"
-                android:paddingStart="16dp"
-                android:background="@null" />
-
+                android:textColor="#1A1A1A"
+                android:paddingStart="40dp"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Forgot Password -->
+        <!-- QUÊN MẬT KHẨU -->
         <TextView
             android:id="@+id/tv_forgot_password"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="40dp"
             android:layout_gravity="end"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
             android:text="Quên mật khẩu?"
             android:textSize="13sp"
-            android:textColor="#2E7D32"
+            android:textColor="#0B4FCC"
             android:gravity="center_vertical"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
-        <!-- Login Button -->
+        <!-- NÚT ĐĂNG NHẬP -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:layout_marginTop="20dp"
-            android:text="Đăng nhập →"
+            android:text="Đăng nhập"
+            android:textAllCaps="false"
             android:textSize="16sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:backgroundTint="#2E7D32"
-            app:cornerRadius="12dp" />
+            app:backgroundTint="#0B4FCC"
+            app:cornerRadius="12dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"/>
 
-        <!-- Divider: Or continue with -->
+        <!-- PROGRESS BAR -->
+        <ProgressBar
+            android:id="@+id/progressBarSignin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:indeterminateTint="#0B4FCC"
+            android:visibility="gone" />
+
+        <!-- DIVIDER -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
-
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#E0E0E0" />
-
+                android:background="#D0D8F0" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
+                android:paddingHorizontal="12dp"
                 android:text="Hoặc tiếp tục với"
                 android:textSize="13sp"
-                android:textColor="#9E9E9E" />
-
+                android:textColor="#8A9BC4" />
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#E0E0E0" />
-
+                android:background="#D0D8F0" />
         </LinearLayout>
 
-        <!-- Social Login Buttons -->
+        <!-- NÚT MẠNG XÃ HỘI -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:orientation="horizontal">
 
-            <!-- Google Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login_google"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:text="Google"
-                android:textSize="14sp"
+                android:textAllCaps="false"
                 android:textColor="#1A1A1A"
                 app:backgroundTint="@color/white"
-                app:strokeColor="#BDBDBD"
-                app:strokeWidth="1dp"
+                app:strokeColor="#C5CEE8"
+                app:strokeWidth="1.5dp"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/ic_google"
                 app:iconTint="@null"
                 app:iconGravity="textStart"
-                app:iconPadding="8dp" />
+                app:iconPadding="8dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"/>
 
-            <!-- Facebook Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login_facebook"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:text="Facebook"
-                android:textSize="14sp"
+                android:textAllCaps="false"
                 android:textColor="#1A1A1A"
                 app:backgroundTint="@color/white"
-                app:strokeColor="#BDBDBD"
-                app:strokeWidth="1dp"
+                app:strokeColor="#C5CEE8"
+                app:strokeWidth="1.5dp"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/ic_facebook"
                 app:iconTint="@null"
                 app:iconGravity="textStart"
-                app:iconPadding="8dp" />
-
+                app:iconPadding="8dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"/>
         </LinearLayout>
 
-        <!-- Register Prompt -->
+        <!-- LINK ĐĂNG KÝ -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
             android:layout_marginBottom="32dp"
             android:orientation="horizontal">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chưa có tài khoản? "
                 android:textSize="14sp"
-                android:textColor="#757575" />
-
+                android:textColor="#6B7BB5" />
             <TextView
                 android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:text="Đăng ký"
                 android:textSize="14sp"
-                android:textColor="#2E7D32"
+                android:textColor="#0B4FCC"
                 android:textStyle="bold"
-                android:gravity="center_vertical"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
+                android:padding="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true" />
-
         </LinearLayout>
 
-    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="120dp" />
 
+    </LinearLayout>
 </ScrollView>

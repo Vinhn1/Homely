@@ -7,7 +7,7 @@ import com.google.firebase.auth.*;
 // Chịu trách nhiệm gọi trực tiếp Firebase Authentication SDK.
 // Các phương thức trả về Task để Repository xử lý bất đồng bộ
 public class FirebaseAuthSource {
-    private FirebaseAuth mAuth;
+    private  FirebaseAuth mAuth;
 
     public FirebaseAuthSource(){
         mAuth = FirebaseAuth.getInstance();
@@ -42,6 +42,14 @@ public class FirebaseAuthSource {
         return mAuth.signInWithCredential(credential);
     }
 
+    /**
+     * Đăng nhập bằng credential (Google, Facebook, etc.)
+     * @param credential AuthCredential từ SDK bên thứ ba
+     * @return Task<AuthResult>
+     */
+    public Task<AuthResult> signInWithCredential(AuthCredential credential){
+        return mAuth.signInWithCredential(credential);
+    }
 
     /**
      * Gửi email đặt lại mật khẩu đến địa chỉ đã đăng ký.
