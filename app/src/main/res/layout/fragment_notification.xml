@@ -1,14 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.notification.NotificationFragment">
+    android:fitsSystemWindows="true"
+    android:background="@color/colorBackground">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Header cố định -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        android:elevation="0dp"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp">
+
+            <!-- Row: tiêu đề + badge + nút -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Thông báo"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/be_vietnam_pro_semibold"
+                    android:textColor="#1A1A2E" />
+
+                <!-- Badge số chưa đọc -->
+                <TextView
+                    android:id="@+id/tvUnreadCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_badge_blue"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/be_vietnam_pro_semibold"
+                    android:visibility="gone" />
+
+                <!-- Nút mark all read -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMarkAllRead"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Xem tất cả"
+                    android:textSize="13sp"
+                    android:textColor="#4A6CF7"
+                    android:fontFamily="@font/be_vietnam_pro"
+                    app:icon="@drawable/ic_check"
+                    app:iconSize="18dp"
+                    app:iconTint="#4A6CF7"
+                    app:iconGravity="textStart" />
+
+            </LinearLayout>
+
+            <!-- Divider mỏng -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#F0F0F5" />
+
+            <!-- Tab All / Unread -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/colorBackground">
+
+                <TextView
+                    android:id="@+id/tabAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center"
+                    android:text="Tất cả"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/be_vietnam_pro_semibold"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/pill_selected_bg" />
+
+                <TextView
+                    android:id="@+id/tabUnread"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="8dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center"
+                    android:text="Chưa đọc"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/be_vietnam_pro"
+                    android:textColor="#888"
+                    android:background="@drawable/pill_unselected_bg" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- ProgressBar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!-- Empty state -->
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingBottom="80dp"
+        android:visibility="gone">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_bell"
+            android:alpha="0.15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Không có thông báo nào"
+            android:textSize="16sp"
+            android:fontFamily="@font/be_vietnam_pro_semibold"
+            android:textColor="#1A1A2E" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Bạn sẽ được thông báo khi có cập nhật mới"
+            android:textSize="13sp"
+            android:fontFamily="@font/be_vietnam_pro"
+            android:textColor="#AAAAAA"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Danh sách thông báo -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="136dp"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        android:overScrollMode="never" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

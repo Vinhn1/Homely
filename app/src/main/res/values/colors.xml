@@ -6,5 +6,6 @@
     <color name="brand_blue">#1A86FF</color>
     <color name="brand_cyan">#38CFFF</color>
     <color name="brand_dark">#0B4FCC</color>
+    <color name="colorBackground">#F8F8FC</color>
 
 </resources>

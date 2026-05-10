@@ -166,6 +166,9 @@ public class AddRoomFragment extends Fragment {
                         userUpdates.put("phone", phone);
                         new FirestoreUserSource().updateUser(landlordId, userUpdates);
 
+                        // Gửi thông báo cho tất cả user
+                        sendNewPostNotification(title, roomId, landlordId);
+
                         Toast.makeText(getContext(), "Đăng tin thành công!", Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(requireView()).navigate(R.id.homeFragment);
                     } else {
@@ -177,6 +180,33 @@ public class AddRoomFragment extends Fragment {
 
 
 
+    }
+
+    private void sendNewPostNotification(String title, String roomId, String landlordId) {
+        com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .addOnSuccessListener(snapshots -> {
+                    NotificationRepository notifRepo = new NotificationRepository();
+
+                    for (com.google.firebase.firestore.DocumentSnapshot doc : snapshots.getDocuments()) {
+                        String uid = doc.getId();
+
+                        // Không gửi cho chính chủ trọ
+                        if (uid.equals(landlordId)) continue;
+
+                        Notification n = new Notification();
+                        n.setToUserId(uid);
+                        n.setType("new_post");
+                        n.setTitle("Phòng trọ mới");
+                        n.setMessage("Có phòng trọ mới vừa được đăng: " + title);
+                        n.setReferenceId(roomId);
+                        n.setRead(false);
+                        n.setCreatedAt(com.google.firebase.Timestamp.now());
+
+                        notifRepo.sendNotification(n);
+                    }
+                });
     }
 
     private List<String> getSelectedAmenities() {

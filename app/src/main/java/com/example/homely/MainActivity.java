@@ -8,7 +8,11 @@ import androidx.navigation.*;
 import androidx.navigation.fragment.*;
 import androidx.navigation.ui.*;
 
+import com.example.homely.data.repository.*;
 import com.example.homely.databinding.*;
+import com.example.homely.ui.common.*;
+import com.google.android.material.badge.*;
+import com.google.firebase.auth.*;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -54,5 +58,25 @@ public class MainActivity extends AppCompatActivity {
         binding.fabPost.setOnClickListener(v ->
                 navController.navigate(R.id.postFragment)
         );
+
+        setupNotificationBadge();
+    }
+
+    private void setupNotificationBadge() {
+        String uid = FirebaseAuth.getInstance().getUid();
+        if (uid == null) return;
+
+        NotificationRepository repo = new NotificationRepository();
+        repo.listenUnreadCount(uid).observe(this, count -> {
+            if (count == null) return;
+            BadgeDrawable badge = binding.bottomNav.getOrCreateBadge(R.id.notificationFragment);
+            if (count > 0) {
+                badge.setVisible(true);
+                badge.setNumber(count);
+            } else {
+                badge.setVisible(false);
+                binding.bottomNav.removeBadge(R.id.notificationFragment);
+            }
+        });
     }
 }

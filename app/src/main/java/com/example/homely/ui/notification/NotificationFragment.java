@@ -1,66 +1,151 @@
 package com.example.homely.ui.notification;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.homely.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NotificationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class NotificationFragment extends Fragment {
+import com.example.homely.data.model.Notification;
+import com.example.homely.databinding.FragmentNotificationBinding;
+import com.example.homely.ui.common.BaseFragment;
+import com.example.homely.ui.notification.NotificationAdapter;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class NotificationFragment extends BaseFragment {
 
-    public NotificationFragment() {
-        // Required empty public constructor
-    }
+    private FragmentNotificationBinding binding;
+    private NotificationViewModel viewModel;
+    private NotificationAdapter adapter;
+    private boolean showOnlyUnread = false;
+    private List<Notification> allNotifications = new ArrayList<>();
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NotificationFragment newInstance(String param1, String param2) {
-        NotificationFragment fragment = new NotificationFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentNotificationBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
+
+        setupRecyclerView();
+        setupTabs();
+        setupMarkAllRead();
+        observeData();
+    }
+
+    private void setupRecyclerView() {
+        adapter = new NotificationAdapter();
+        binding.rvNotifications.setLayoutManager(
+                new LinearLayoutManager(requireContext()));
+        binding.rvNotifications.setAdapter(adapter);
+
+        adapter.setOnNotificationClickListener(notification -> {
+            if (!notification.isRead()) {
+                viewModel.markAsRead(notification.getId());
+            }
+            handleNotificationClick(notification);
+        });
+    }
+
+    private void setupTabs() {
+        binding.tabAll.setOnClickListener(v -> {
+            showOnlyUnread = false;
+            updateTabStyle(false);
+            filterList();
+        });
+
+        binding.tabUnread.setOnClickListener(v -> {
+            showOnlyUnread = true;
+            updateTabStyle(true);
+            filterList();
+        });
+    }
+
+    private void updateTabStyle(boolean unreadSelected) {
+        binding.tabAll.setAlpha(unreadSelected ? 0.5f : 1f);
+        binding.tabUnread.setAlpha(unreadSelected ? 1f : 0.5f);
+    }
+
+    private void setupMarkAllRead() {
+        binding.btnMarkAllRead.setOnClickListener(v -> {
+            viewModel.markAllAsRead();
+            Toast.makeText(requireContext(),
+                    "Đã đánh dấu tất cả đã đọc", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void observeData() {
+        viewModel.getNotifications().observe(getViewLifecycleOwner(), resource -> {
+            if (resource == null) return;
+            switch (resource.status) {
+                case LOADING:
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    break;
+
+                case SUCCESS:
+                    binding.progressBar.setVisibility(View.GONE);
+                    if (resource.data != null && !resource.data.isEmpty()) {
+                        binding.layoutEmpty.setVisibility(View.GONE);
+                        binding.rvNotifications.setVisibility(View.VISIBLE);
+                        allNotifications = resource.data;
+                        filterList();
+
+                        long unread = resource.data.stream()
+                                .filter(n -> !n.isRead()).count();
+                        if (unread > 0) {
+                            binding.tvUnreadCount.setVisibility(View.VISIBLE);
+                            binding.tvUnreadCount.setText(String.valueOf(unread));
+                        } else {
+                            binding.tvUnreadCount.setVisibility(View.GONE);
+                        }
+                    } else {
+                        binding.layoutEmpty.setVisibility(View.VISIBLE);
+                        binding.rvNotifications.setVisibility(View.GONE);
+                    }
+                    break;
+
+                case ERROR:
+                    binding.progressBar.setVisibility(View.GONE);
+                    Toast.makeText(requireContext(),
+                            resource.message, Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        });
+    }
+
+    private void filterList() {
+        if (showOnlyUnread) {
+            adapter.submitList(allNotifications.stream()
+                    .filter(n -> !n.isRead())
+                    .collect(Collectors.toList()));
+        } else {
+            adapter.submitList(new ArrayList<>(allNotifications));
         }
     }
 
+    private void handleNotificationClick(Notification notification) {
+        if (notification.getReferenceId() == null) return;
+        // TODO: navigate theo type
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

@@ -78,4 +78,6 @@ dependencies {
     implementation("androidx.activity:activity:1.9.0")
     implementation("com.cloudinary:cloudinary-android:2.3.1")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 }
